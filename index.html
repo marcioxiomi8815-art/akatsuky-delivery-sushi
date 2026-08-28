@@ -1,83 +1,83 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0f">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Akatsuky Sushi">
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
-<title>Akatsuky Delivery Sushi</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#111116">
+  <meta name="description" content="Akatsuky Delivery Sushi - Cardápio online">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+  <title>Akatsuky Delivery Sushi</title>
 </head>
 <body>
-<header class="top">
-  <div class="brand">
-    <div class="logo">🍣</div>
-    <div><h1>Akatsuky Delivery Sushi</h1><p>Presencial & Delivery • 19h às 23:30</p></div>
-  </div>
-  <button id="installBtn" class="ghost" hidden>📲 Instalar app</button>
-</header>
+  <header class="hero">
+    <div class="hero-glow"></div>
+    <img class="logo" src="logo.png" alt="Akatsuky Delivery Sushi">
+    <div class="hero-text">
+      <span class="badge">🍣 DELIVERY & RETIRADA</span>
+      <h1>Akatsuky <strong>Delivery Sushi</strong></h1>
+      <p>Escolha seus favoritos, monte seu pedido e envie direto pelo WhatsApp.</p>
+      <button id="installBtn" class="install-btn" hidden>📲 Adicionar à tela inicial</button>
+    </div>
+  </header>
 
-<main>
-  <section class="hero">
-    <div><span class="badge">🍱 CARDÁPIO ONLINE</span><h2>Seu sushi favorito,<br><b>do nosso restaurante para você.</b></h2><p>Escolha seus itens, informe a entrega e envie o pedido pelo WhatsApp.</p></div>
-    <div class="hero-art">🍣<span>🍱</span>🍥</div>
-  </section>
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <small>QUINTA A DOMINGO • 19H ÀS 23:30H</small>
+        <h2>Cardápio online</h2>
+      </div>
+      <a class="whatsapp" href="https://wa.me/5519989806770" target="_blank">WhatsApp</a>
+    </section>
 
-  <nav id="categories" class="categories"></nav>
-  <section id="products" class="grid"></section>
-</main>
+    <nav id="categories" class="categories" aria-label="Categorias"></nav>
+    <section id="menu" class="menu-grid"></section>
 
-<button id="cartFloat" class="cart-float">🛒 <span>Meu pedido</span> <b id="cartCount">0</b></button>
+    <section class="checkout">
+      <div class="checkout-title">
+        <h2>🛒 Seu pedido</h2>
+        <span id="cartCount">0 itens</span>
+      </div>
+      <div id="cart" class="cart-empty">Seu carrinho está vazio.</div>
 
-<div id="cartModal" class="modal hidden">
- <div class="sheet">
-  <button class="close" data-close>×</button>
-  <h2>Seu pedido</h2>
-  <div id="cartItems"></div>
-  <div class="total"><span>Total</span><strong id="cartTotal">R$ 0,00</strong></div>
-  <button id="checkoutBtn" class="primary">Continuar para entrega →</button>
- </div>
-</div>
+      <form id="orderForm">
+        <h3>📍 Dados para entrega</h3>
+        <div class="form-grid">
+          <label>Nome*
+            <input id="name" required placeholder="Seu nome">
+          </label>
+          <label>WhatsApp*
+            <input id="phone" required inputmode="tel" placeholder="(19) 99999-9999">
+          </label>
+          <label class="wide">Endereço completo*
+            <textarea id="address" required rows="2" placeholder="Rua, número, bairro, complemento"></textarea>
+          </label>
+          <label>Forma de pagamento*
+            <select id="payment" required>
+              <option value="">Selecione</option>
+              <option>PIX</option>
+              <option>Dinheiro</option>
+              <option>Cartão de crédito</option>
+              <option>Cartão de débito</option>
+            </select>
+          </label>
+          <label id="changeWrap" class="hidden">Troco para
+            <input id="change" inputmode="decimal" placeholder="R$ 100,00">
+          </label>
+          <label class="wide">Observações
+            <textarea id="notes" rows="2" placeholder="Ex.: pouco shoyu, sem wasabi..."></textarea>
+          </label>
+        </div>
+        <div class="total-row">
+          <span>Total</span><strong id="total">R$ 0,00</strong>
+        </div>
+        <button class="send-btn" type="submit">📲 Enviar pedido pelo WhatsApp</button>
+      </form>
+    </section>
+  </main>
 
-<div id="checkoutModal" class="modal hidden">
- <div class="sheet">
-  <button class="close" data-close>×</button>
-  <h2>Finalizar pedido</h2>
-  <p class="muted">Todos os campos abaixo são obrigatórios.</p>
-  <form id="checkout">
-   <label>Nome completo*<input id="name" required></label>
-   <label>WhatsApp do cliente*<input id="phone" type="tel" required placeholder="(19) 99999-9999"></label>
-   <label>Endereço completo*<textarea id="address" required placeholder="Rua, número, bairro, complemento"></textarea></label>
-   <label>Forma de pagamento*
-    <select id="payment" required>
-      <option value="">Selecione...</option><option>PIX</option><option>Cartão de crédito</option><option>Cartão de débito</option><option>Dinheiro</option>
-    </select>
-   </label>
-   <label id="changeWrap" class="hidden">Troco para quanto?<input id="change" inputmode="decimal" placeholder="Ex.: 100,00"></label>
-   <label>Observações<textarea id="notes" placeholder="Ex.: sem wasabi, ponto de entrega..."></textarea></label>
-   <div class="summary"><span>Total do pedido</span><b id="checkoutTotal">R$ 0,00</b></div>
-   <button class="primary" type="submit">🟢 Enviar pedido pelo WhatsApp</button>
-  </form>
- </div>
-</div>
-
-<div id="adminModal" class="modal hidden">
- <div class="sheet admin">
-  <button class="close" data-close>×</button>
-  <h2>⚙️ Administração</h2>
-  <p class="muted">Altere preços e produtos neste aparelho.</p>
-  <div id="adminList"></div>
-  <button id="resetData" class="danger">Restaurar cardápio original</button>
- </div>
-</div>
-
-<footer>
-  <b>Akatsuky Delivery Sushi</b><br>Pedidos pelo WhatsApp • (19) 98986-0770
-  <div><button id="adminBtn" class="linkbtn">Área administrativa</button></div>
-</footer>
-<script src="app.js"></script>
+  <footer>Akatsuky Delivery Sushi • Atendimento pelo WhatsApp (19) 98986-0770</footer>
+  <script src="app.js"></script>
 </body>
 </html>

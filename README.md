@@ -1,10 +1,7 @@
-# Akatsuky Delivery Sushi — Cardápio Online
-WhatsApp do restaurante: 5519989860770
-Senha inicial da administração: 1234
+# Akatsuky Delivery Sushi
+Cardápio online com carrinho, dados obrigatórios, envio do pedido pelo WhatsApp e suporte a instalação na tela inicial do celular.
 
-## Publicar no GitHub Pages
-Envie todos os arquivos para a raiz do repositório e selecione:
-Settings → Pages → Deploy from a branch → main → /(root) → Save.
+WhatsApp do restaurante: (19) 98986-0770
 
-## Importante
-A edição de preços desta versão é salva no navegador. Para sincronizar preços entre aparelhos/clientes, será necessário um banco de dados/backend.
+## Publicação
+Envie todos os arquivos para a raiz do GitHub Pages. O arquivo `index.html` deve ficar na raiz.
