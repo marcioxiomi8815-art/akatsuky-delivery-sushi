@@ -1,5 +1,4 @@
-// Configuração do projeto Firebase: Akatsuky Delivery
-export const firebaseConfig = {
+window.AKATSUKY_FIREBASE_CONFIG = {
   apiKey: "AIzaSyA4xSzk_6INyBqehV51PfkfbzgqX1anPs",
   authDomain: "akatsuky-delivery.firebaseapp.com",
   databaseURL: "https://akatsuky-delivery-default-rtdb.firebaseio.com",
