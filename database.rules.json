@@ -1,0 +1,31 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": false,
+    "orders": {
+      ".read": true,
+      "$orderId": {
+        ".write": "!data.exists() && newData.hasChildren(['createdAt','status','customer','items','total']) || (data.exists() && newData.hasChildren(['createdAt','status','customer','items','total']))",
+        ".validate": "newData.hasChildren(['createdAt','status','customer','items','total']) && newData.child('createdAt').isNumber() && newData.child('total').isNumber() && newData.child('status').val() in ['recebido','preparando','saiu para entrega','entregue']"
+      }
+    },
+    "menu": {
+      ".read": true,
+      ".write": true
+    },
+    "settings": {
+      ".read": true,
+      "storeOpen": {
+        ".write": true,
+        ".validate": "newData.isBoolean()"
+      }
+    },
+    "cashClosings": {
+      ".read": true,
+      "$date": {
+        ".write": true,
+        ".validate": "newData.hasChildren(['date','salesTotal','manualInputs','adjustments','closingTotal','expectedCash','difference','orderCount','operator','finalized']) && newData.child('date').isString() && newData.child('salesTotal').isNumber() && newData.child('closingTotal').isNumber() && newData.child('expectedCash').isNumber() && newData.child('difference').isNumber() && newData.child('orderCount').isNumber() && newData.child('finalized').isBoolean()"
+      }
+    }
+  }
+}

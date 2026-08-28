@@ -1,19 +1,21 @@
-AKATSUKY DELIVERY SUSHI — VERSÃO 3
+AKATSUKY DELIVERY SUSHI — VERSÃO 3.2
 
-Arquivos para GitHub Pages:
-index.html
-admin.html
-app.js
-admin.js
-style.css
-firebase-config.js
-manifest.json
-sw.js
-logo.png
+MELHORIAS DESTA VERSÃO
+- Busca rápida de produtos no cardápio.
+- Carrinho salvo no navegador para não perder o pedido ao recarregar.
+- Botões + e − para ajustar quantidades.
+- Botão para limpar o pedido.
+- Dados do cliente salvos localmente para agilizar pedidos futuros.
+- Máscara de telefone brasileiro.
+- Painel administrativo com busca por nome/telefone/pedido.
+- Filtro de pedidos por status.
+- Horário de recebimento exibido em cada pedido.
+- Layout mobile refinado.
 
 CLIENTE
 - Abre o cardápio.
-- Seleciona produtos.
+- Pesquisa e filtra produtos.
+- Seleciona produtos e ajusta quantidades.
 - Informa nome, celular, CEP, rua, número, bairro, cidade, UF e pagamento.
 - O CEP consulta o ViaCEP.
 - O pedido é gravado no Firebase.
@@ -24,7 +26,8 @@ RESTAURANTE
 - Abra /admin.html
 - PIN inicial: 1234
 - Os pedidos aparecem automaticamente.
-- É possível alterar preços e salvar o cardápio no Firebase.
+- Pesquise pedidos e filtre por status.
+- É possível alterar categoria, produto, descrição e preço e salvar o cardápio.
 
 WHATSAPP
 Número configurado no app.js: 55 19 98986-0770.
