@@ -87,7 +87,7 @@ function loadMenu(){
     if(!cart.length)return alert('Adicione produtos ao carrinho.');
     saveCustomer();
     const total=cart.reduce((s,i)=>{const x=menu.find(m=>m.id===i.id);return s+x.price*i.q},0);
-    const o={createdAt:Date.now(),status:'recebido',customer:{name:$('name').value.trim(),phone:$('phone').value.trim(),cep:$('cep').value,street:$('street').value.trim(),number:$('number').value.trim(),neighborhood:$('neighborhood').value.trim(),city:$('city').value.trim(),uf:$('uf').value.trim().toUpperCase(),payment:$('payment').value,notes:$('notes').value.trim()},items:cart.map(i=>{const x=menu.find(m=>m.id===i.id);return{name:x.name,qty:i.q,price:x.price}}),total};
+    const o={createdAt:firebase.database.ServerValue.TIMESTAMP,status:'recebido',customer:{name:$('name').value.trim(),phone:$('phone').value.trim(),cep:$('cep').value,street:$('street').value.trim(),number:$('number').value.trim(),neighborhood:$('neighborhood').value.trim(),city:$('city').value.trim(),uf:$('uf').value.trim().toUpperCase(),payment:$('payment').value,notes:$('notes').value.trim()},items:cart.map(i=>{const x=menu.find(m=>m.id===i.id);return{name:x.name,qty:i.q,price:x.price}}),total};
     let id='LOCAL-'+Date.now();
     try{if(db){const r=await db.ref('orders').push(o);id=r.key;localStorage.setItem('lastOrder',id);showTracking(id);}}
     catch(err){console.error(err);alert('O Firebase não aceitou o pedido. O pedido será aberto no WhatsApp mesmo assim.');}
