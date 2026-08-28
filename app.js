@@ -159,7 +159,7 @@ document.getElementById("orderForm").onsubmit=e=>{
 
   const msg=`🍣 *NOVO PEDIDO - AKATSUKY DELIVERY SUSHI*%0A%0A${items}%0A%0A💰 *TOTAL: ${brl(total)}*%0A%0A👤 Nome: ${encodeURIComponent(name.value)}%0A📱 WhatsApp: ${encodeURIComponent(phone.value)}%0A📍 Endereço: ${encodeURIComponent(fullAddress)}%0A💳 Pagamento: ${encodeURIComponent(payment.value)}${payment.value==="Dinheiro"&&change.value?`%0A💵 Troco para: ${encodeURIComponent(change.value)}`:""}%0A📝 Observações: ${encodeURIComponent(notes.value||"Nenhuma")}`;
 
-  window.open(`https://wa.me/5519989806770?text=${msg}`,"_blank");
+  window.location.href=`https://wa.me/5519989860770?text=${msg}`;
 };
 
 renderMenu();
