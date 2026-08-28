@@ -13,9 +13,23 @@
 <body>
   <header class="hero">
     <div class="hero-glow"></div>
-    <img class="logo" src="logo.png" alt="Akatsuky Delivery Sushi">
+
+    <div class="brand-circle" aria-label="Akatsuky Delivery Sushi">
+      <svg class="slogan-ring" viewBox="0 0 320 320" aria-hidden="true">
+        <defs>
+          <path id="sloganPath" d="M160,160 m-132,0 a132,132 0 1,1 264,0 a132,132 0 1,1 -264,0"/>
+        </defs>
+        <text>
+          <textPath href="#sloganPath" startOffset="0%">
+            PRESENCIAL • DELIVERY • QUINTA A DOMINGO • 19H ÀS 23:30H •
+          </textPath>
+        </text>
+      </svg>
+      <img src="logo.png" alt="Logo Akatsuky Delivery Sushi">
+    </div>
+
     <div class="hero-text">
-      <span class="badge">🍣 DELIVERY & RETIRADA</span>
+      <span class="badge">🍣 AKATSUKY DELIVERY SUSHI</span>
       <h1>Akatsuky <strong>Delivery Sushi</strong></h1>
       <p>Escolha seus favoritos, monte seu pedido e envie direto pelo WhatsApp.</p>
       <button id="installBtn" class="install-btn" hidden>📲 Adicionar à tela inicial</button>
@@ -43,15 +57,42 @@
 
       <form id="orderForm">
         <h3>📍 Dados para entrega</h3>
+
+        <div class="cep-box">
+          <label>CEP*
+            <div class="cep-row">
+              <input id="cep" required inputmode="numeric" maxlength="9"
+                     placeholder="00000-000" autocomplete="postal-code">
+              <button type="button" id="cepBtn" class="cep-btn">🔎 Buscar</button>
+            </div>
+          </label>
+          <span id="cepStatus" class="cep-status" aria-live="polite"></span>
+        </div>
+
         <div class="form-grid">
           <label>Nome*
-            <input id="name" required placeholder="Seu nome">
+            <input id="name" required placeholder="Seu nome" autocomplete="name">
           </label>
           <label>WhatsApp*
-            <input id="phone" required inputmode="tel" placeholder="(19) 99999-9999">
+            <input id="phone" required inputmode="tel" placeholder="(19) 99999-9999" autocomplete="tel">
           </label>
-          <label class="wide">Endereço completo*
-            <textarea id="address" required rows="2" placeholder="Rua, número, bairro, complemento"></textarea>
+          <label class="wide">Rua / Avenida*
+            <input id="street" required placeholder="Rua ou avenida" autocomplete="street-address">
+          </label>
+          <label>Número*
+            <input id="number" required inputmode="numeric" placeholder="Número">
+          </label>
+          <label>Bairro*
+            <input id="neighborhood" required placeholder="Bairro" autocomplete="address-level3">
+          </label>
+          <label>Cidade*
+            <input id="city" required placeholder="Cidade" autocomplete="address-level2">
+          </label>
+          <label>UF*
+            <input id="uf" required maxlength="2" placeholder="SP" autocomplete="address-level1">
+          </label>
+          <label class="wide">Complemento
+            <input id="complement" placeholder="Apartamento, bloco, referência..." autocomplete="address-line2">
           </label>
           <label>Forma de pagamento*
             <select id="payment" required>
@@ -69,6 +110,7 @@
             <textarea id="notes" rows="2" placeholder="Ex.: pouco shoyu, sem wasabi..."></textarea>
           </label>
         </div>
+
         <div class="total-row">
           <span>Total</span><strong id="total">R$ 0,00</strong>
         </div>
