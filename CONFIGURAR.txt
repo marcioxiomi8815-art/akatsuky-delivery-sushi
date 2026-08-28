@@ -1,49 +1,45 @@
-# AKATSUKY DELIVERY SUSHI — Firebase seguro (v3.6)
+AKATSUKY DELIVERY SUSHI — VERSÃO 3.2
 
-## 1. Ative o Authentication
-No Firebase Console → Authentication → Sign-in method, ative **Email/Password**.
+MELHORIAS DESTA VERSÃO
+- Busca rápida de produtos no cardápio.
+- Carrinho salvo no navegador para não perder o pedido ao recarregar.
+- Botões + e − para ajustar quantidades.
+- Botão para limpar o pedido.
+- Dados do cliente salvos localmente para agilizar pedidos futuros.
+- Máscara de telefone brasileiro.
+- Painel administrativo com busca por nome/telefone/pedido.
+- Filtro de pedidos por status.
+- Horário de recebimento exibido em cada pedido.
+- Layout mobile refinado.
 
-## 2. Crie as contas
-Crie pelo menos:
-- conta do administrador → função `admin`
-- conta do caixa → função `cashier`
-- opcional: operador de pedidos → função `operator`
+CLIENTE
+- Abre o cardápio.
+- Pesquisa e filtra produtos.
+- Seleciona produtos e ajusta quantidades.
+- Informa nome, celular, CEP, rua, número, bairro, cidade, UF e pagamento.
+- O CEP consulta o ViaCEP.
+- O pedido é gravado no Firebase.
+- Depois abre o WhatsApp do restaurante com a mensagem pronta.
+- Pedido pode ser acompanhado em tempo real.
 
-Depois de criar cada usuário, copie o UID e crie no Realtime Database:
+RESTAURANTE
+- Abra /admin.html
+- PIN inicial: 1234
+- Os pedidos aparecem automaticamente.
+- Pesquise pedidos e filtre por status.
+- É possível alterar categoria, produto, descrição e preço e salvar o cardápio.
 
-```json
-{
-  "users": {
-    "UID_DO_ADMIN": { "role": "admin" },
-    "UID_DO_CAIXA": { "role": "cashier" },
-    "UID_DO_OPERADOR": { "role": "operator" }
-  }
-}
-```
+WHATSAPP
+Número configurado no app.js: 55 19 98986-0770.
+Se o número estiver diferente, altere RESTAURANT_WHATSAPP.
 
-**Não permita que o cliente escreva em `users`.** As regras desta versão já bloqueiam essa escrita.
+IMPORTANTE
+O PIN em JavaScript não é segurança forte. Para produção, use Firebase Authentication e regras do Realtime Database. A configuração Firebase no frontend pode ser pública; a proteção deve estar nas regras do banco.
 
-## 3. Realtime Database
-Publique `database.rules.json`. As regras fazem: 
-- cliente não lê a árvore inteira de pedidos;
-- cliente pode criar um pedido novo;
-- cliente pode acompanhar um pedido pelo ID;
-- somente `admin`/`operator` alteram status;
-- somente `admin` altera cardápio e abre/fecha loja;
-- somente `admin`/`cashier` acessam e fecham caixa;
-- caixa finalizado não pode mais ser alterado.
 
-## 4. Hosting
-No terminal, dentro da pasta do projeto:
-
-```bash
-firebase login
-firebase use akatsuky-delivery
-firebase deploy --only database,hosting
-```
-
-## 5. Senhas
-Não há mais PIN fixo no JavaScript. A autenticação é feita pelo Firebase Authentication. O painel administrativo e o caixa devem usar contas diferentes para manter senhas/permissões separadas.
-
-## 6. Segurança adicional recomendada antes da operação
-Ative **App Check** para o app web, mantenha MFA para a conta principal quando disponível e nunca coloque senha ou token secreto dentro de `firebase-config.js`. A configuração Firebase web (apiKey etc.) pode ser pública; a proteção real está no Authentication e nas Rules.
+LOGIN ATUALIZADO
+- Painel usa Firebase Authentication (e-mail + senha).
+- O UID precisa existir em /users/UID/role com admin, cashier ou operator.
+- Cliente usa autenticação anônima para criar/acompanhar seu pedido sem pedir credenciais.
+- Habilite Authentication > Sign-in method > Anonymous no Firebase Console.
+- Nenhuma Security Rule ou dado existente foi alterado por este pacote.

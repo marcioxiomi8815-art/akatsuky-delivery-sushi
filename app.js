@@ -15,7 +15,7 @@
     ['Bebidas','Água','Água mineral.',4]
   ].map((x,i)=>({id:i+1,cat:x[0],name:x[1],desc:x[2],price:x[3]}));
 
-  let menu = [...DEFAULT_MENU], cart = [], cat = 'Todos', db = null, searchTerm = '', storeOpen = true;
+  let menu = [...DEFAULT_MENU], cart = [], cat = 'Todos', db = null, auth = null, currentUser = null, searchTerm = '', storeOpen = true;
   const CART_KEY='akatsukyCart', CUSTOMER_KEY='akatsukyCustomer';
 
   function setConnection(text, type='ok') {
@@ -87,7 +87,7 @@ function loadMenu(){
     if(!cart.length)return alert('Adicione produtos ao carrinho.');
     saveCustomer();
     const total=cart.reduce((s,i)=>{const x=menu.find(m=>m.id===i.id);return s+x.price*i.q},0);
-    const o={createdAt:firebase.database.ServerValue.TIMESTAMP,status:'recebido',customer:{name:$('name').value.trim(),phone:$('phone').value.trim(),cep:$('cep').value,street:$('street').value.trim(),number:$('number').value.trim(),neighborhood:$('neighborhood').value.trim(),city:$('city').value.trim(),uf:$('uf').value.trim().toUpperCase(),payment:$('payment').value,notes:$('notes').value.trim()},items:cart.map(i=>{const x=menu.find(m=>m.id===i.id);return{name:x.name,qty:i.q,price:x.price}}),total};
+    const o={clientId:currentUser?.uid||'',createdAt:Date.now(),status:'recebido',customer:{name:$('name').value.trim(),phone:$('phone').value.trim(),cep:$('cep').value,street:$('street').value.trim(),number:$('number').value.trim(),neighborhood:$('neighborhood').value.trim(),city:$('city').value.trim(),uf:$('uf').value.trim().toUpperCase(),payment:$('payment').value,notes:$('notes').value.trim()},items:cart.map(i=>{const x=menu.find(m=>m.id===i.id);return{name:x.name,qty:i.q,price:x.price}}),total};
     let id='LOCAL-'+Date.now();
     try{if(db){const r=await db.ref('orders').push(o);id=r.key;localStorage.setItem('lastOrder',id);showTracking(id);}}
     catch(err){console.error(err);alert('O Firebase não aceitou o pedido. O pedido será aberto no WhatsApp mesmo assim.');}
@@ -109,7 +109,10 @@ function loadMenu(){
     $('orderForm').onsubmit=submitOrder;
     const last=localStorage.getItem('lastOrder'); if(last)showTracking(last);
     renderCats();renderMenu();
-    if(window.firebase){try{firebase.initializeApp(window.AKATSUKY_FIREBASE_CONFIG);loadMenu();listenStoreState();}catch(e){console.error(e);setConnection('🟠 Cardápio local ativo • configuração Firebase inválida','warn');}}else{setConnection('🟠 Cardápio local ativo • carregando conexão...','warn');setTimeout(loadMenu,1000);}
+    if(window.firebase){try{
+      firebase.initializeApp(window.AKATSUKY_FIREBASE_CONFIG);db=firebase.database();auth=firebase.auth();
+      auth.onAuthStateChanged(user=>{currentUser=user||null;if(user){loadMenu();listenStoreState();}else{auth.signInAnonymously().catch(()=>setConnection('🟠 Não foi possível autenticar o cliente. Ative o login anônimo no Firebase Authentication.','warn'));}});
+    }catch(e){console.error(e);setConnection('🟠 Cardápio local ativo • configuração Firebase inválida','warn');}}else{setConnection('🟠 Cardápio local ativo • carregando conexão...','warn');setTimeout(loadMenu,1000);}
     if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(console.warn);
     let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('install').classList.add('show');});$('installBtn').onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$('install').classList.remove('show');}else alert("No celular, abra o menu do navegador e escolha 'Adicionar à tela inicial'.");};
   });
