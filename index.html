@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Akatsuky Sushi">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+<title>Akatsuky Delivery Sushi</title>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="logo">🍣</div>
+    <div><h1>Akatsuky Delivery Sushi</h1><p>Presencial & Delivery • 19h às 23:30</p></div>
+  </div>
+  <button id="installBtn" class="ghost" hidden>📲 Instalar app</button>
+</header>
+
+<main>
+  <section class="hero">
+    <div><span class="badge">🍱 CARDÁPIO ONLINE</span><h2>Seu sushi favorito,<br><b>do nosso restaurante para você.</b></h2><p>Escolha seus itens, informe a entrega e envie o pedido pelo WhatsApp.</p></div>
+    <div class="hero-art">🍣<span>🍱</span>🍥</div>
+  </section>
+
+  <nav id="categories" class="categories"></nav>
+  <section id="products" class="grid"></section>
+</main>
+
+<button id="cartFloat" class="cart-float">🛒 <span>Meu pedido</span> <b id="cartCount">0</b></button>
+
+<div id="cartModal" class="modal hidden">
+ <div class="sheet">
+  <button class="close" data-close>×</button>
+  <h2>Seu pedido</h2>
+  <div id="cartItems"></div>
+  <div class="total"><span>Total</span><strong id="cartTotal">R$ 0,00</strong></div>
+  <button id="checkoutBtn" class="primary">Continuar para entrega →</button>
+ </div>
+</div>
+
+<div id="checkoutModal" class="modal hidden">
+ <div class="sheet">
+  <button class="close" data-close>×</button>
+  <h2>Finalizar pedido</h2>
+  <p class="muted">Todos os campos abaixo são obrigatórios.</p>
+  <form id="checkout">
+   <label>Nome completo*<input id="name" required></label>
+   <label>WhatsApp do cliente*<input id="phone" type="tel" required placeholder="(19) 99999-9999"></label>
+   <label>Endereço completo*<textarea id="address" required placeholder="Rua, número, bairro, complemento"></textarea></label>
+   <label>Forma de pagamento*
+    <select id="payment" required>
+      <option value="">Selecione...</option><option>PIX</option><option>Cartão de crédito</option><option>Cartão de débito</option><option>Dinheiro</option>
+    </select>
+   </label>
+   <label id="changeWrap" class="hidden">Troco para quanto?<input id="change" inputmode="decimal" placeholder="Ex.: 100,00"></label>
+   <label>Observações<textarea id="notes" placeholder="Ex.: sem wasabi, ponto de entrega..."></textarea></label>
+   <div class="summary"><span>Total do pedido</span><b id="checkoutTotal">R$ 0,00</b></div>
+   <button class="primary" type="submit">🟢 Enviar pedido pelo WhatsApp</button>
+  </form>
+ </div>
+</div>
+
+<div id="adminModal" class="modal hidden">
+ <div class="sheet admin">
+  <button class="close" data-close>×</button>
+  <h2>⚙️ Administração</h2>
+  <p class="muted">Altere preços e produtos neste aparelho.</p>
+  <div id="adminList"></div>
+  <button id="resetData" class="danger">Restaurar cardápio original</button>
+ </div>
+</div>
+
+<footer>
+  <b>Akatsuky Delivery Sushi</b><br>Pedidos pelo WhatsApp • (19) 98986-0770
+  <div><button id="adminBtn" class="linkbtn">Área administrativa</button></div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
