@@ -1,0 +1,10 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+import { firebaseConfig } from "./firebase-config.js";
+const db=getDatabase(initializeApp(firebaseConfig)), $=id=>document.getElementById(id);
+const PIN="1234"; let logged=false;
+$("enter").onclick=()=>{if($("pin").value!==PIN)return alert("PIN incorreto.");logged=true;$("login").classList.add("hidden");$("dashboard").classList.remove("hidden");listen()};
+function listen(){onValue(ref(db,"orders"),snap=>{let data=snap.val()||{};let arr=Object.entries(data).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));$("orders").innerHTML=arr.length?arr.map(([id,o])=>card(id,o)).join(""):"<div class='panel'>Nenhum pedido ainda.</div>"})}
+function card(id,o){let c=o.customer||{};let items=(o.items||[]).map(x=>`${x.qty}x ${x.name} — ${Number(x.price*x.qty).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}`).join("<br>");return `<article class="order"><div class="ordertop"><b>Pedido #${id.slice(-6)}</b><span class="status">${o.status}</span></div><h3>${c.name||""}</h3><p>📱 ${c.phone||""}<br>📍 ${c.street||""}, ${c.number||""} — ${c.neighborhood||""}, ${c.city||""}/${c.uf||""} — CEP ${c.cep||""}<br>💳 ${c.payment||""}</p><hr><p>${items}</p><h3>Total: ${Number(o.total).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}</h3><p>${c.notes||""}</p><div class="actions">${["recebido","preparando","saiu para entrega","entregue"].map(s=>`<button onclick="setStatus('${id}','${s}')">${s.toUpperCase()}</button>`).join("")}</div></article>`}
+window.setStatus=(id,status)=>update(ref(db,"orders/"+id),{status});
+$("refresh").onclick=()=>listen();$("connection").textContent="Painel preparado.";

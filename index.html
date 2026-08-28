@@ -1,125 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#111116">
-  <meta name="description" content="Akatsuky Delivery Sushi - Cardápio online">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="logo.png">
-  <link rel="stylesheet" href="style.css">
-  <title>Akatsuky Delivery Sushi</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111116"><link rel="manifest" href="manifest.json">
+<link rel="icon" href="logo.png"><link rel="stylesheet" href="style.css">
+<title>Akatsuky Delivery Sushi</title>
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-glow"></div>
-
-    <div class="brand-circle" aria-label="Akatsuky Delivery Sushi">
-      <svg class="slogan-ring" viewBox="0 0 320 320" aria-hidden="true">
-        <defs>
-          <path id="sloganPath" d="M160,160 m-132,0 a132,132 0 1,1 264,0 a132,132 0 1,1 -264,0"/>
-        </defs>
-        <text>
-          <textPath href="#sloganPath" startOffset="0%">
-            PRESENCIAL • DELIVERY • QUINTA A DOMINGO • 19H ÀS 23:30H •
-          </textPath>
-        </text>
-      </svg>
-      <img src="logo.png" alt="Logo Akatsuky Delivery Sushi">
-    </div>
-
-    <div class="hero-text">
-      <span class="badge">🍣 AKATSUKY DELIVERY SUSHI</span>
-      <h1>Akatsuky <strong>Delivery Sushi</strong></h1>
-      <p>Escolha seus favoritos, monte seu pedido e envie direto pelo WhatsApp.</p>
-      <button id="installBtn" class="install-btn" hidden>📲 Adicionar à tela inicial</button>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="welcome">
-      <div>
-        <small>QUINTA A DOMINGO • 19H ÀS 23:30H</small>
-        <h2>Cardápio online</h2>
+<header class="hero">
+  <div class="brand"><div class="ring">AKATSUKY • DELIVERY • SUSHI • AKATSUKY • DELIVERY • SUSHI •</div><img src="logo.png"></div>
+  <div><span class="badge">🍣 PEDIDOS ONLINE</span><h1>Akatsuky <b>Delivery Sushi</b></h1><p>Faça seu pedido e acompanhe tudo pelo celular.</p></div>
+</header>
+<main class="wrap">
+  <div id="connection" class="notice">Conectando ao sistema...</div>
+  <section><h2>Cardápio</h2><div id="cats" class="cats"></div><div id="menu" class="grid"></div></section>
+  <section class="panel">
+    <h2>🛒 Seu pedido <span id="count" class="pill">0 itens</span></h2>
+    <div id="cart">Carrinho vazio.</div>
+    <form id="orderForm">
+      <h3>📍 Entrega</h3>
+      <div class="form">
+        <label>Nome*<input id="name" required autocomplete="name"></label>
+        <label>Celular*<input id="phone" required inputmode="tel" autocomplete="tel"></label>
+        <label>CEP*<input id="cep" required maxlength="9" inputmode="numeric" placeholder="00000-000"></label>
+        <label class="row"><button type="button" id="searchCep">🔎 Buscar CEP</button></label>
+        <label class="wide">Rua*<input id="street" required></label>
+        <label>Número*<input id="number" required inputmode="numeric"></label>
+        <label>Bairro*<input id="neighborhood" required></label>
+        <label>Cidade*<input id="city" required></label>
+        <label>UF*<input id="uf" required maxlength="2"></label>
+        <label>Pagamento*<select id="payment" required><option value="">Selecione</option><option>PIX</option><option>Dinheiro</option><option>Cartão</option></select></label>
+        <label class="wide">Observações<textarea id="notes"></textarea></label>
       </div>
-      <a class="whatsapp" href="https://wa.me/5519989860770" target="_blank">WhatsApp</a>
-    </section>
-
-    <nav id="categories" class="categories" aria-label="Categorias"></nav>
-    <section id="menu" class="menu-grid"></section>
-
-    <section class="checkout">
-      <div class="checkout-title">
-        <h2>🛒 Seu pedido</h2>
-        <span id="cartCount">0 itens</span>
-      </div>
-      <div id="cart" class="cart-empty">Seu carrinho está vazio.</div>
-
-      <form id="orderForm">
-        <h3>📍 Dados para entrega</h3>
-
-        <div class="cep-box">
-          <label>CEP*
-            <div class="cep-row">
-              <input id="cep" required inputmode="numeric" maxlength="9"
-                     placeholder="00000-000" autocomplete="postal-code">
-              <button type="button" id="cepBtn" class="cep-btn">🔎 Buscar</button>
-            </div>
-          </label>
-          <span id="cepStatus" class="cep-status" aria-live="polite"></span>
-        </div>
-
-        <div class="form-grid">
-          <label>Nome*
-            <input id="name" required placeholder="Seu nome" autocomplete="name">
-          </label>
-          <label>WhatsApp*
-            <input id="phone" required inputmode="tel" placeholder="(19) 99999-9999" autocomplete="tel">
-          </label>
-          <label class="wide">Rua / Avenida*
-            <input id="street" required placeholder="Rua ou avenida" autocomplete="street-address">
-          </label>
-          <label>Número*
-            <input id="number" required inputmode="numeric" placeholder="Número">
-          </label>
-          <label>Bairro*
-            <input id="neighborhood" required placeholder="Bairro" autocomplete="address-level3">
-          </label>
-          <label>Cidade*
-            <input id="city" required placeholder="Cidade" autocomplete="address-level2">
-          </label>
-          <label>UF*
-            <input id="uf" required maxlength="2" placeholder="SP" autocomplete="address-level1">
-          </label>
-          <label class="wide">Complemento
-            <input id="complement" placeholder="Apartamento, bloco, referência..." autocomplete="address-line2">
-          </label>
-          <label>Forma de pagamento*
-            <select id="payment" required>
-              <option value="">Selecione</option>
-              <option>PIX</option>
-              <option>Dinheiro</option>
-              <option>Cartão de crédito</option>
-              <option>Cartão de débito</option>
-            </select>
-          </label>
-          <label id="changeWrap" class="hidden">Troco para
-            <input id="change" inputmode="decimal" placeholder="R$ 100,00">
-          </label>
-          <label class="wide">Observações
-            <textarea id="notes" rows="2" placeholder="Ex.: pouco shoyu, sem wasabi..."></textarea>
-          </label>
-        </div>
-
-        <div class="total-row">
-          <span>Total</span><strong id="total">R$ 0,00</strong>
-        </div>
-        <button class="send-btn" type="submit">📲 Enviar pedido pelo WhatsApp</button>
-      </form>
-    </section>
-  </main>
-
-  <footer>Akatsuky Delivery Sushi • Atendimento pelo WhatsApp (19) 98986-0770</footer>
-  <script src="app.js"></script>
-</body>
-</html>
+      <div class="total"><span>Total</span><b id="total">R$ 0,00</b></div>
+      <button class="primary" type="submit">ENVIAR PEDIDO</button>
+    </form>
+  </section>
+  <section id="tracking" class="panel hidden"><h2>📦 Acompanhar pedido</h2><div id="trackingBox"></div></section>
+</main>
+<footer>Akatsuky Delivery Sushi • Sistema próprio de pedidos</footer>
+<script type="module" src="app.js"></script>
+</body></html>

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111116"><link rel="stylesheet" href="style.css"><title>Painel • Akatsuky</title></head>
+<body>
+<header class="adminhead"><img src="logo.png"><div><b>AKATSUKY DELIVERY SUSHI</b><small>Painel do Restaurante</small></div></header>
+<main class="wrap">
+  <div id="connection" class="notice">Conectando ao sistema...</div>
+  <section id="login" class="panel login"><h2>🔐 Acesso do restaurante</h2><input id="pin" type="password" placeholder="PIN do restaurante"><button class="primary" id="enter">ENTRAR</button><small>Troque o PIN no arquivo admin.js antes de publicar.</small></section>
+  <section id="dashboard" class="hidden">
+    <div class="dash"><h2>Pedidos</h2><button id="refresh">Atualizar</button></div>
+    <div id="orders"></div>
+  </section>
+</main>
+<script type="module" src="admin.js"></script>
+</body></html>

@@ -1,0 +1,12 @@
+AKATSUKY DELIVERY — VERSÃO CONECTADA AO FIREBASE
+
+1. Substitua no GitHub os arquivos desta pasta.
+2. O Firebase já está configurado em firebase-config.js.
+3. Cliente: abra index.html pelo endereço do GitHub Pages.
+4. Restaurante: abra admin.html pelo mesmo site, acrescentando /admin.html.
+5. PIN inicial do restaurante: 1234 (troque em admin.js antes de usar em produção).
+6. O banco utilizado é o Realtime Database do projeto Akatsuky Delivery.
+
+IMPORTANTE:
+- Se o Realtime Database estiver em modo de teste, ele fica temporariamente aberto. Antes de usar em produção, configure regras de segurança e autenticação.
+- O CEP usa o serviço ViaCEP para preencher rua, bairro, cidade e UF.
