@@ -87,7 +87,7 @@ function loadMenu(){
     if(!cart.length)return alert('Adicione produtos ao carrinho.');
     saveCustomer();
     const total=cart.reduce((s,i)=>{const x=menu.find(m=>m.id===i.id);return s+x.price*i.q},0);
-    const o={createdAt:Date.now(),status:'recebido',customer:{name:$('name').value.trim(),phone:$('phone').value.trim(),cep:$('cep').value,street:$('street').value.trim(),number:$('number').value.trim(),neighborhood:$('neighborhood').value.trim(),city:$('city').value.trim(),uf:$('uf').value.trim().toUpperCase(),payment:$('payment').value,notes:$('notes').value.trim()},items:cart.map(i=>{const x=menu.find(m=>m.id===i.id);return{name:x.name,qty:i.q,price:x.price}}),total};
+    const o={createdAt:firebase.database.ServerValue.TIMESTAMP,status:'recebido',customer:{name:$('name').value.trim(),phone:$('phone').value.trim(),cep:$('cep').value,street:$('street').value.trim(),number:$('number').value.trim(),neighborhood:$('neighborhood').value.trim(),city:$('city').value.trim(),uf:$('uf').value.trim().toUpperCase(),payment:$('payment').value,notes:$('notes').value.trim()},items:cart.map(i=>{const x=menu.find(m=>m.id===i.id);return{name:x.name,qty:i.q,price:x.price}}),total};
     let id='LOCAL-'+Date.now();
     try{if(db){const r=await db.ref('orders').push(o);id=r.key;localStorage.setItem('lastOrder',id);showTracking(id);}}
     catch(err){console.error(err);alert('O Firebase não aceitou o pedido. O pedido será aberto no WhatsApp mesmo assim.');}
@@ -100,7 +100,7 @@ function loadMenu(){
   }
   function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
-\n  async function staffLogin(e){\n    e.preventDefault();\n    const email = $('staffEmail').value.trim();\n    const password = $('staffPassword').value;\n    const msg = $('staffLoginMessage');\n    if(!window.firebase || !firebase.auth){\n      msg.className='notice warn';\n      msg.textContent='Firebase Authentication não foi carregado.';\n      return;\n    }\n    try{\n      const cred = await firebase.auth().signInWithEmailAndPassword(email,password);\n      const snap = await firebase.database().ref('users/'+cred.user.uid+'/role').once('value');\n      const role = snap.val();\n      if(!['admin','cashier','operator'].includes(role)){\n        await firebase.auth().signOut();\n        msg.className='notice warn';\n        msg.textContent='Login recusado: usuário sem função autorizada.';\n        return;\n      }\n      msg.className='notice ok';\n      msg.textContent='Login autorizado.';\n      $('staffLoginForm').style.display='none';\n    }catch(err){\n      msg.className='notice warn';\n      msg.textContent='Não foi possível entrar. Confira e-mail e senha.';\n    }\n  }\n\n  window.addEventListener('DOMContentLoaded',()=>{
+  window.addEventListener('DOMContentLoaded',()=>{
     $('searchCep').onclick=searchCep;
     const search=$('menuSearch'); if(search) search.oninput=e=>{searchTerm=e.target.value;renderMenu();};
     const phone=$('phone'); if(phone) phone.oninput=e=>e.target.value=maskPhone(e.target.value);
@@ -109,7 +109,7 @@ function loadMenu(){
     $('orderForm').onsubmit=submitOrder;
     const last=localStorage.getItem('lastOrder'); if(last)showTracking(last);
     renderCats();renderMenu();
-    if(window.firebase){try{firebase.initializeApp(window.AKATSUKY_FIREBASE_CONFIG); firebase.auth(); $('staffLoginForm').onsubmit=staffLogin; loadMenu(); listenStoreState();}catch(e){console.error(e);setConnection('🟠 Cardápio local ativo • configuração Firebase inválida','warn');}}else{setConnection('🟠 Cardápio local ativo • carregando conexão...','warn');setTimeout(loadMenu,1000);}
+    if(window.firebase){try{firebase.initializeApp(window.AKATSUKY_FIREBASE_CONFIG);loadMenu();listenStoreState();}catch(e){console.error(e);setConnection('🟠 Cardápio local ativo • configuração Firebase inválida','warn');}}else{setConnection('🟠 Cardápio local ativo • carregando conexão...','warn');setTimeout(loadMenu,1000);}
     if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(console.warn);
     let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('install').classList.add('show');});$('installBtn').onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$('install').classList.remove('show');}else alert("No celular, abra o menu do navegador e escolha 'Adicionar à tela inicial'.");};
   });

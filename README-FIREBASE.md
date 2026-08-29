@@ -1,43 +1,49 @@
-# Akatsuky Delivery Sushi — Firebase
+# AKATSUKY DELIVERY SUSHI — Firebase seguro (v3.6)
 
-Projeto configurado para o Realtime Database e Firebase Hosting.
+## 1. Ative o Authentication
+No Firebase Console → Authentication → Sign-in method, ative **Email/Password**.
 
-## 1. Projeto
-O frontend já está apontado para o projeto Firebase `akatsuky-delivery` em `firebase-config.js`.
+## 2. Crie as contas
+Crie pelo menos:
+- conta do administrador → função `admin`
+- conta do caixa → função `cashier`
+- opcional: operador de pedidos → função `operator`
 
-## 2. Regras
-O arquivo `database.rules.json` contém as regras necessárias para a versão atual.
+Depois de criar cada usuário, copie o UID e crie no Realtime Database:
 
-IMPORTANTE: estas regras mantêm o comportamento da versão atual (cliente acessa pedidos para acompanhamento e o painel usa PIN no navegador). Para segurança de produção, o ideal é migrar o painel para Firebase Authentication + regras por usuário/admin.
+```json
+{
+  "users": {
+    "UID_DO_ADMIN": { "role": "admin" },
+    "UID_DO_CAIXA": { "role": "cashier" },
+    "UID_DO_OPERADOR": { "role": "operator" }
+  }
+}
+```
 
-## 3. Publicar
-Na pasta deste projeto:
+**Não permita que o cliente escreva em `users`.** As regras desta versão já bloqueiam essa escrita.
+
+## 3. Realtime Database
+Publique `database.rules.json`. As regras fazem: 
+- cliente não lê a árvore inteira de pedidos;
+- cliente pode criar um pedido novo;
+- cliente pode acompanhar um pedido pelo ID;
+- somente `admin`/`operator` alteram status;
+- somente `admin` altera cardápio e abre/fecha loja;
+- somente `admin`/`cashier` acessam e fecham caixa;
+- caixa finalizado não pode mais ser alterado.
+
+## 4. Hosting
+No terminal, dentro da pasta do projeto:
 
 ```bash
-npm install -g firebase-tools
 firebase login
 firebase use akatsuky-delivery
 firebase deploy --only database,hosting
 ```
 
-Se o projeto ainda não estiver selecionado:
+## 5. Senhas
+Não há mais PIN fixo no JavaScript. A autenticação é feita pelo Firebase Authentication. O painel administrativo e o caixa devem usar contas diferentes para manter senhas/permissões separadas.
 
-```bash
-firebase use --add
-```
-
-Escolha `akatsuky-delivery`.
-
-## 4. Estrutura usada pelo app
-- `orders/` — pedidos
-- `menu/` — cardápio
-- `settings/storeOpen` — estado aberto/fechado da loja
-- `cashClosings/AAAA-MM-DD` — fechamento diário
-
-## 5. Primeiro uso
-Abra o site publicado e faça um pedido de teste. Depois abra `/admin.html`.
-
-PIN do painel atual: 1234
-PIN do caixa atual: 5678
-
-Altere esses PINs no `admin.js` antes de produção.
+## 6. Segurança adicional recomendada antes da operação
+Ative **App Check** para o app web, mantenha MFA para a conta principal quando disponível e nunca coloque senha ou token secreto dentro de `firebase-config.js`. A configuração Firebase web (apiKey etc.) pode ser pública; a proteção real está no Authentication e nas Rules.

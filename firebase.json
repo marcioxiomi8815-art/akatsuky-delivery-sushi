@@ -4,8 +4,16 @@
   },
   "hosting": {
     "public": ".",
-    "ignore": ["firebase.json", "database.rules.json", "README-FIREBASE.md", "CONFIGURAR.txt"],
+    "ignore": [
+      "firebase.json",
+      "database.rules.json",
+      "README-FIREBASE.md",
+      "CONFIGURAR.txt"
+    ],
     "cleanUrls": true,
     "trailingSlash": false
+  },
+  "functions": {
+    "source": "functions"
   }
 }
