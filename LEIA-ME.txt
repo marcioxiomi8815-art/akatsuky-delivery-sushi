@@ -1,0 +1,4 @@
+AKATSUKY DELIVERY — correção de login Firebase
+
+Arquivos incluídos: index.html e app.js.
+Login por e-mail e senha via Firebase Authentication; após autenticar, consulta users/UID/role. Roles aceitas: admin, cashier e operator. Não contém chave OpenAI e não registra senha, API key ou dados pessoais. Não altera Security Rules nem dados do Firebase.
